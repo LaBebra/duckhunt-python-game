@@ -69,8 +69,9 @@ jobs:
       # Примітка: якщо потрібно провалювати pipeline при будь-якій помилці —
       # видали "|| true"
       - name: Run Flake8 with HTML report
+        working-directory: duckhunt
         run: |
-          flake8 duckhunt/ \
+          flake8 . \
             --format=html \
             --htmldir=reports/lint \
             --max-line-length=100 \
@@ -85,8 +86,9 @@ jobs:
       # Окремий запуск flake8 який провалює pipeline при синтаксичних
       # помилках (E9xx, F8xx) — навіть якщо HTML-звіт вже збережено.
       - name: Fail on critical errors
+        working-directory: duckhunt
         run: |
-          flake8 duckhunt/ \
+          flake8 . \
             --select=E9,F8 \
             --max-line-length=100 \
             --exclude=duckhunt/__pycache__
@@ -160,6 +162,7 @@ jobs:
       #   --self-contained-html        → весь CSS/JS вбудований у один файл
       #   --junit-xml=reports/junit.xml → XML для GitHub Summary
       - name: Run pytest
+        working-directory: duckhunt
         run: |
           pytest tests/ \
             -v \
